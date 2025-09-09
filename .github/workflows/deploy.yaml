@@ -48,3 +48,4 @@ jobs:
           kubectl -n $NAMESPACE set image deployment/$DEPLOYMENT \
             $CONTAINER_NAME=$IMAGE:latest --record
           kubectl -n $NAMESPACE rollout status deployment/$DEPLOYMENT --timeout=180s
+ 
