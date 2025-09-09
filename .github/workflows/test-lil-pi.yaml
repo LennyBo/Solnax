@@ -1,0 +1,17 @@
+name: Test lil-pi Runner
+on:
+  workflow_dispatch:
+
+jobs:
+  hello-pi:
+    runs-on: [self-hosted, lil-pi]
+    steps:
+      - name: Check runner identity
+        run: |
+          echo "Running on $(hostname)"
+          echo "User: $(whoami)"
+          echo "OS: $(uname -a)"
+          echo "Docker version:"
+          docker --version || echo "Docker not found"
+          echo "Kubectl version:"
+          kubectl version --client || echo "Kubectl not found"
