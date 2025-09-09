@@ -4,7 +4,7 @@ on:
 
 jobs:
   hello-pi:
-    runs-on: [self-hosted, lil-pi]
+    runs-on: [self-hosted]
     steps:
       - name: Check runner identity
         run: |
