@@ -1,0 +1,50 @@
+name: CI/CD - Solnax App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-publish:
+    name: Build & Push Docker image to GHCR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}/solnax-app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./solnax-app
+          file: ./solnax-app/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ github.sha }}
+            ${{ env.IMAGE }}:latest
+
+  deploy:
+    name: Deploy to k3s (lil-pi)
+    runs-on: [self-hosted, lil-pi]
+    needs: build-publish
+    env:
+      IMAGE: ghcr.io/${{ github.repository }}/solnax-app
+      NAMESPACE: apps
+      DEPLOYMENT: solnax-app
+      CONTAINER_NAME: solnax-app
+    steps:
+      - name: Update Deployment image
+        run: |
+          kubectl -n $NAMESPACE set image deployment/$DEPLOYMENT \
+            $CONTAINER_NAME=$IMAGE:latest --record
+          kubectl -n $NAMESPACE rollout status deployment/$DEPLOYMENT --timeout=180s
