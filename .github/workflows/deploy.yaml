@@ -50,15 +50,15 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
-    deploy:
-      name: Deploy to Pi
-      runs-on: [self-hosted]
-      needs: build-publish
-      env:
-        IMAGE: ghcr.io/${{ github.repository }}/solnax-app
-      steps:
-        - name: Pull latest image & restart service
-          run: |
-            cd ~/solnax
-            docker compose pull app
-            sudo systemctl restart solnax
+        deploy:
+          name: Deploy to Pi
+          runs-on: [self-hosted]
+          needs: build-publish
+          env:
+            IMAGE: ghcr.io/${{ github.repository }}/solnax-app
+          steps:
+            - name: Pull latest image & restart service
+              run: |
+                cd ~/solnax
+                docker compose pull app
+                sudo systemctl restart solnax
