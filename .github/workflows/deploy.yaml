@@ -50,7 +50,7 @@ jobs:
     needs: build-publish
     env:
       IMAGE: ghcr.io/${{ github.repository }}/solnax-app
-      NAMESPACE: apps
+      NAMESPACE: solnax
       DEPLOYMENT: solnax-app
       CONTAINER_NAME: solnax-app
     steps:
