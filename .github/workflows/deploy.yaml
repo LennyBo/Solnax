@@ -46,7 +46,7 @@ jobs:
 
   deploy:
     name: Deploy to k3s (lil-pi)
-    runs-on: [self-hosted, lil-pi]
+    runs-on: [self-hosted]
     needs: build-publish
     env:
       IMAGE: ghcr.io/${{ github.repository }}/solnax-app
