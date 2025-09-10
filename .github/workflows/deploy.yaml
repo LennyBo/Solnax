@@ -40,6 +40,7 @@ jobs:
           context: ./solnax-app
           file: ./solnax-app/Dockerfile
           push: true
+          platforms: linux/armv7,linux/amd64
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
