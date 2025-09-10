@@ -50,17 +50,3 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:latest
-
-  deploy:
-    name: Deploy to k3s (lil-pi)
-    runs-on: [self-hosted]
-    needs: build-publish
-    env:
-      IMAGE: ghcr.io/${{ github.repository }}/solnax-app
-      NAMESPACE: solnax
-      DEPLOYMENT: solnax-app
-      CONTAINER_NAME: solnax-app
-    steps:
-      - name: Update Deployment image
-        run: |
-          kubectl rollout restart deployment solnax-app -n solnax
