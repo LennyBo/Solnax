@@ -63,4 +63,4 @@ jobs:
     steps:
       - name: Update Deployment image
         run: |
-          kubectl apply -f /usr/pi/solnax-stack.yaml
+          kubectl apply -f /home/pi/solnax-stack.yaml
